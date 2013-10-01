@@ -1,7 +1,9 @@
 (ns {{name}}.command
   (:require [clojure.string :as s]
             [korma.core :as k]
-            [reverie.auth.user :as user]))
+            [reverie.auth.user :as user]
+            [reverie.migration :as migration])
+  (:use {{name}}.init :only [lobos-db]))
 
 
 (defn- read-input [info]
@@ -28,9 +30,23 @@
                  (not (zero? (count (k/select :user (k/where {:name name}))))) "User already exists"
                  :else true)]
     (if (true? passes?)
-      (user/add! first-name last-name name password email)
+      (do
+        (user/add! first-name last-name name password email)
+        (println "Superuser" name "added"))
       (println "Could not add new superuser:" passes?))))
+
+(defn command-migrate []
+  (println "Migrating...")
+  (migration/open-global-when-necessary lobos-db)
+  (migration/migrate)
+  (println "Migration done..."))
+
+(defn command-init []
+  (command-migrate)
+  (command-superuser))
 
 (defn run-command [command & args]
   (case command
-    :superuser (command-superuser)))
+    :superuser (command-superuser)
+    :migrate (command-migrate)
+    :init (command-init)))
