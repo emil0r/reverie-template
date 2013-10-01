@@ -1,4 +1,4 @@
-(ns leiningen.new.reverie-template
+(ns leiningen.new.reverie
   (:require [leiningen.new.templates :refer [renderer name-to-path ->files year]]
             [leiningen.core.main :as main])
   (:use [clojure.string :only [blank?]]))
@@ -80,7 +80,7 @@
                    "oracle" (str "thin:@" db-host ":" db-port "/" db ":SID")
                    "")}))
 
-(defn reverie-template
+(defn reverie
   [name]
   (let [data (merge {:name name
                      :sanitized (name-to-path name)
