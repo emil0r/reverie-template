@@ -75,14 +75,12 @@
                    "")}))
 
 (defn reverie-template
-  "FIXME: write documentation"
   [name]
   (let [data (merge {:name name
                      :sanitized (name-to-path name)
                      :year (year)}
                     (read-database))]
-    (println data)
-    (main/info "Generating fresh 'lein new' reverie-template project.")
+    (main/info "Generating fresh 'lein new' reverie project.")
     (->files data
              [".gitignore" (render "gitignore")]
              ["project.clj" (render "project.clj" data)]
@@ -91,6 +89,7 @@
              ["src/{{sanitized}}/core.clj" (render "core.clj" data)]
              ["src/{{sanitized}}/init.clj" (render "init.clj" data)]
              ["src/{{sanitized}}/dev.clj" (render "dev.clj" data)]
+             ["src/{{sanitized}}/command.clj" (render "command.clj" data)]
              ["src/{{sanitized}}/templates/main.clj" (render "template.clj" data)]
              ["src/{{sanitized}}/includes/head.clj" (render "include.head.clj" data)]
              ["src/{{sanitized}}/objects/head.clj" (render "object.text.clj" data)]
