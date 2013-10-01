@@ -59,7 +59,12 @@
                          "postgres" "postgresql"
                          "mysql" "mysql"
                          "oracle" "oracle"
-                         "")]
+                         "")
+        db-dependancy (case db-type
+                        "postgres" "org.postgresql/postgresql \"9.2-1002-jdbc4\""
+                        "mysql" "mysql/mysql-connector-java \"5.1.6\""
+                        "oracle" "com.oracle/ojdbc14 \"10.2.0.4.0\""
+                        (str db-type "\"version\""))]
     {:db-type db-type
      :db db
      :db-host db-host
@@ -68,6 +73,7 @@
      :db-password db-password
      :db-driver db-driver
      :db-subprotocol db-subprotocol
+     :db-dependancy db-dependancy
      :db-subname (case db-type
                    "postgres" (str "//" db-host ":" db-port "/" db)
                    "mysql" (str "//" db-host ":" db-port "/" db)
