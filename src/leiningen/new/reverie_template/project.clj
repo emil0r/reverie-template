@@ -7,4 +7,4 @@
   :main {{name}}.core
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [reverie "0.5.0-SNAPSHOT"]
-                 [{{db-dependancy}}]])
+                 [{{& db-dependancy}}]])
