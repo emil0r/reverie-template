@@ -2,6 +2,7 @@
   (:require [clojure.string :as s]
             [korma.core :as k]
             [reverie.auth.user :as user]
+            [reverie.page :as page]
             [reverie.migration :as migration])
   (:use [{{name}}.init :only [lobos-db]]))
 
@@ -41,13 +42,32 @@
   (migration/migrate)
   (println "Migration done..."))
 
+(defn- command-root-page []
+  (println "Adding root page"
+           "\n----------"
+           "\n")
+  (if (zero? (count (k/select :page)))
+   (let [name (read-input "Name?")
+         title (read-input "Title? (blank is ok)")]
+     (if (s/blank? name)
+       (do
+         (println "Name can't be blank")
+         (command-root-page))
+       (do
+         (page/add! {:tx-data {:name name :title title :template "main" :type "normal"
+                               :app "" :parent 0 :uri "/"}})
+         (println "Root page" name "added"))))
+   (println "Pages already exists. Aborting...")))
+
 (defn- command-init []
   (command-migrate)
-  (command-superuser))
+  (command-superuser)
+  (command-root-page))
 
 (defn run-command [[command & args]]
   (case command
     :superuser (command-superuser)
     :migrate (command-migrate)
     :init (command-init)
+    :root-page (command-root-page)
     "No command found"))
