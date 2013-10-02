@@ -1,11 +1,11 @@
 (ns {{name}}.dev
   (:require [{{name}}.init :as init]
-            [reverie.atoms :only [read-routes!]]
-            [reverie.server :as server]))
+            [reverie.server :as server])
+  (:use [reverie.atoms :only [read-routes!]]))
 
 
 (server/init)
 (init/init)
-(read-rotes!)
+(read-routes!)
 
 (def app (server/server-handler {}))
