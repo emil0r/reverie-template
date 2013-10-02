@@ -1,13 +1,13 @@
 (ns {{name}}.core
   (:gen-class)
   (:require [reverie.server :as server]
-            [{{name}}.init :as init]))
+            [{{name}}.init :as init])
+  (:use [{{name}}.command :only [run-command]]))
 
 
 (defn -main [& args]
-  (if (= :command (first args))
-    (let [run-command (resolve '{{name}}.command/run-command)]
-      (run-command (rest args)))
+  (if (= :command (read-string (first args)))
+    (run-command (map read-string (rest args)))
     (let [settings (merge {:port 8080}
                           (into {}
                                 (map (fn [[a b]] {a b})

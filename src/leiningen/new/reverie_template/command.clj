@@ -3,7 +3,7 @@
             [korma.core :as k]
             [reverie.auth.user :as user]
             [reverie.migration :as migration])
-  (:use {{name}}.init :only [lobos-db]))
+  (:use [{{name}}.init :only [lobos-db]]))
 
 
 (defn- read-input [info]
@@ -16,8 +16,8 @@
 
 (defn- command-superuser []
   (println "Adding new superuser"
-           "----------"
-           "\n\n")
+           "\n----------"
+           "\n")
   (let [first-name (read-input "First name?")
         last-name (read-input "Last name?")
         email (read-input "Email?")
@@ -31,22 +31,23 @@
                  :else true)]
     (if (true? passes?)
       (do
-        (user/add! first-name last-name name password email)
+        (add-superuser first-name last-name name password email)
         (println "Superuser" name "added"))
       (println "Could not add new superuser:" passes?))))
 
-(defn command-migrate []
+(defn- command-migrate []
   (println "Migrating...")
   (migration/open-global-when-necessary lobos-db)
   (migration/migrate)
   (println "Migration done..."))
 
-(defn command-init []
+(defn- command-init []
   (command-migrate)
   (command-superuser))
 
-(defn run-command [command & args]
+(defn run-command [[command & args]]
   (case command
     :superuser (command-superuser)
     :migrate (command-migrate)
-    :init (command-init)))
+    :init (command-init)
+    "No command found"))

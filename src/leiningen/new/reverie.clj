@@ -98,6 +98,6 @@
              ["src/{{sanitized}}/command.clj" (render "command.clj" data)]
              ["src/{{sanitized}}/templates/main.clj" (render "template.clj" data)]
              ["src/{{sanitized}}/includes/head.clj" (render "include.head.clj" data)]
-             ["src/{{sanitized}}/objects/head.clj" (render "object.text.clj" data)]
+             ["src/{{sanitized}}/objects/text.clj" (render "object.text.clj" data)]
              ["src/{{sanitized}}/objects/raw.clj" (render "object.raw.clj" data)]
              ["src/{{sanitized}}/objects/migrations.clj" (render "object.migrations.clj" data)])))

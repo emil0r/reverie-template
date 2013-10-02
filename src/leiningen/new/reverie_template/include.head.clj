@@ -5,7 +5,7 @@
 
 (defn title [request]
   (let [p (page/get {:page-id (get-in request [:reverie :page-id])})]
-    [:title (first (remove s/blank? [(:title p) (:name p)])) " &mdash; " {{name}}]))
+    [:title (first (remove s/blank? [(:title p) (:name p)])) " &mdash; {{name}}"]))
 
 (defn css []
   (map include-css ["/css/main.css"
