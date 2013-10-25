@@ -1,0 +1,9 @@
+{:db {:db "{{db}}"
+      :user "{{db-user}}"
+      :password "{{db-password}}"}
+ :lobos-db {:classname "{{db-driver}}"
+            :subprotocol "{{db-subprotocol}}"
+            :subname "{{db-subname}}"
+            :user "{{db-user}}"
+            :password "{{db-password}}"}
+ :port 8080}

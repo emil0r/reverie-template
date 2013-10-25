@@ -6,5 +6,5 @@
   :ring {:handler {{name}}.dev/app}
   :main {{name}}.core
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [reverie "0.5.0-beta1"]
+                 [reverie "0.5.0-beta2"]
                  [{{& db-dependancy}}]])

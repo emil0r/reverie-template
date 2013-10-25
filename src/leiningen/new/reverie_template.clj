@@ -92,6 +92,7 @@
              ["project.clj" (render "project.clj" data)]
              ["README.md" (render "README.md" data)]
              ["LICENSE" (render "LICENSE")]
+             ["settings.edn" (render "settings.edn" data)]
              ["src/{{sanitized}}/core.clj" (render "core.clj" data)]
              ["src/{{sanitized}}/init.clj" (render "init.clj" data)]
              ["src/{{sanitized}}/dev.clj" (render "dev.clj" data)]

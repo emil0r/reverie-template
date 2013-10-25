@@ -4,8 +4,8 @@
   (:use [reverie.atoms :only [read-routes!]]))
 
 
+(init/init (-> "settings.edn" slurp read-string))
 (server/init)
-(init/init)
 (read-routes!)
 
 (def app (server/server-handler {}))

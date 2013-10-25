@@ -4,8 +4,11 @@
             [reverie.auth.user :as user]
             [reverie.page :as page]
             [reverie.migration :as migration])
-  (:use [{{name}}.init :only [lobos-db]]))
+  (:use [korma.db :only [defdb {{db-type}}]]))
 
+
+(def settings (-> "settings.edn" slurp read-string))
+(defdb {{name}}-db ({{db-type}} (:db settings)))
 
 (defn- read-input [info]
   (println info)
@@ -38,7 +41,7 @@
 
 (defn- command-migrate []
   (println "Migrating...")
-  (migration/open-global-when-necessary lobos-db)
+  (migration/open-global-when-necessary (:lobos-db settings))
   (migration/migrate)
   (println "Migration done..."))
 
