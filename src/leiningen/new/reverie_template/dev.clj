@@ -3,9 +3,11 @@
             [reverie.server :as server])
   (:use [reverie.atoms :only [read-routes!]]))
 
+(defn init []
+  (init/init (-> "settings.edn" slurp read-string))
+  (server/init)
+  (read-routes!))
 
-(init/init (-> "settings.edn" slurp read-string))
-(server/init)
-(read-routes!)
+
 
 (def app (server/server-handler {}))
