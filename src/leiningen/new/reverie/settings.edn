@@ -1,0 +1,17 @@
+{
+ ;; reverie
+ :server-mode :dev
+ :server {:options {:port 3000}
+          :middleware {}}
+ :db {:specs {:default {:classname "{{db-driver}}"
+                        :subprotocol "{{db-subprotocol}}"
+                        :subname "//{{db-host}}:{{db-port}}/{{db-subname}}"
+                        :user "{{db-user}}"
+                        :password "{{db-password}}"}}}
+
+ :admin {:tasks {:edits {:minutes 30}}}
+ :log {:rotor {:path "logs/{{name}}.log"}}
+ :site {:host-names []}
+ :filemanager {:base-dir "media"
+               :media-dirs ["media/images"
+                            "media/files"]}}
