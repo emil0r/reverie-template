@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [reverie-core "0.1.0"]
                  [reverie-sql "0.1.0"]
+                 [http-kit "2.1.19"]
                  [{{& db-dependancy}}]]
   :main {{name}}.core
   :min-lein-version "2.0.0"
