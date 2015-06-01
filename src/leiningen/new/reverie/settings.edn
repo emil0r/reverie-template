@@ -5,7 +5,7 @@
           :middleware {}}
  :db {:specs {:default {:classname "{{db-driver}}"
                         :subprotocol "{{db-subprotocol}}"
-                        :subname "//{{db-host}}:{{db-port}}/{{db-subname}}"
+                        :subname "{{db-subname}}"
                         :user "{{db-user}}"
                         :password "{{db-password}}"}}}
 

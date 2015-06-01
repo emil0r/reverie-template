@@ -106,4 +106,5 @@
       "No command found")
 
     (component/stop db)
-    (component/stop settings)))
+    (component/stop settings)
+    (System/exit 0)))
