@@ -18,9 +18,9 @@
                      {:db {:type :sql
                            :migration-table table
                            :url (str "jdbc:postgresql:"
-                                     "//localhost:5432/startshop_reverie_no"
-                                     "?user=" "startshop"
-                                     "&password=" "foobar")}
+                                     "{{db-subname}}"
+                                     "?user=" "{{db-user}}"
+                                     "&password=" "{{db-password}}")}
                       :migrator path})
                    (array-map
                     ;;"migrations_<name-here>" "src/{{name}}/objects/migrations/<name-here>/"
