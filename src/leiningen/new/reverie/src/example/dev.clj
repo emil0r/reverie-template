@@ -24,8 +24,8 @@
                       :migrator path})
                    (array-map
                     ;;"migrations_<name-here>" "src/{{name}}/objects/migrations/<name-here>/"
-                    "migrations_raw" "src/{{name}}/objects/migrations/raw/"
-                    "migrations_text" "src/{{name}}/objects/migrations/text/"
+                    ;;"migrations_raw" "src/{{name}}/objects/migrations/raw/"
+                    ;;"migrations_text" "src/{{name}}/objects/migrations/text/"
                     ))]
     ;; IMPORTANT NOTE: this has destructive side effects in the sense
     ;; of wiping out previously applied migrations.
