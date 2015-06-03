@@ -102,4 +102,14 @@
              ["src/{{sanitized}}/endpoints/api.clj" (render "src/example/endpoints/api.clj" data)]
              ;; apps
              ["src/{{sanitized}}/apps/myapp.clj" (render "src/example/apps/myapp.clj" data)]
+             ;; doc
+             ["doc/intro.md" (render "doc/intro.md" data)]
+             ;; test
+             ["test/test/core_test.clj" (render "test/test/core_test.clj")]
+             ;; directories
+             "resources"
+             "resources/queries"
+             "resources/public"
+             "resources/public/static"
+             ""
              )))
