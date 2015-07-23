@@ -4,6 +4,7 @@
             [digest :refer [md5]]
             [org.httpkit.server :as http-server :refer [run-server]]
             reverie.nsloader
+            [reverie.admin :as admin]
             [reverie.admin.api.editors :refer [get-edits-task]]
             [reverie.cache :as cache]
             [reverie.cache.memory :as cache-memory]
@@ -49,10 +50,12 @@
                             [:database :cachemanager])
      :logger (logger/logger prod? (:rotor log))
      :scheduler (scheduler/get-scheduler)
+     :admin (component/using (admin/get-admin-initializer)
+                             [:database])
      :system (component/using (sys/get-system)
                               [:database :filemanager :site :scheduler
                                :settings :server :logger
-                               :cachemanager]))))
+                               :admin :cachemanager]))))
 
 
 (defonce system (atom nil))
