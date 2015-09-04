@@ -10,5 +10,4 @@
                  [{{& db-dependancy}}]]
   :main {{name}}.core
   :min-lein-version "2.0.0"
-  :uberjar-name "{{name}}.jar"
-  :profiles {:uberjar {:aot :all}})
+  :uberjar-name "{{name}}.jar")

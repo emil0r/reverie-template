@@ -31,6 +31,12 @@
                            server-options middleware-options
                            run-server stop-server]}]
   (let [dbs (component/start (dbs/database db-specs))]
+
+    ;; reverie/CMS migrations
+    (->> dbs
+         (migrator.sql/get-migrator)
+         (migrator/migrate))
+
     (component/system-map
      :database dbs
      :settings settings
@@ -97,9 +103,7 @@
                    '{{name}}.apps
                    '{{name}}.endpoints)
 
-    ;; run the migrations
-    ;; this includes migrations for reverie/CMS first
-    ;; and after that the migrations defined for the site
+    ;; do any migrations necessary
     (->> @system
          :database
          (migrator-sql/get-migrator)
