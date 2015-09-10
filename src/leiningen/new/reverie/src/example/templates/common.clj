@@ -2,8 +2,7 @@
   (:require [clojure.string :as str]
             [hiccup.page :refer [include-css include-js]]
             [reverie.core :refer [area]]
-            [reverie.database :as db]
-            [reverie.downstream :as downstream]
+            [reverie.database :as rev.db]
             [reverie.page :as page]))
 
 
@@ -14,8 +13,7 @@
                                                    (remove str/blank?)
                                                    first)
                                               " &mdash; Slogan Here")
-               :else (str (->> [(downstream/get :app-title)
-                                (page/title page) (page/name page)]
+               :else (str (->> [(page/title page) (page/name page)]
                                (remove str/blank?)
                                first)
                           " &mdash; {{Name}}"))]
@@ -30,7 +28,7 @@
 (defn nav [page db]
   [:nav
    [:ul.main-menu
-    (let [pages (db/get-children db 1 true)]
+    (let [pages (rev.db/get-children db 1 true)]
       (map (fn [{:keys [title name] :as child}]
              [:li (if (.startsWith (page/path page) (page/path child))
                     {:class "active"})

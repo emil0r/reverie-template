@@ -1,13 +1,13 @@
 (ns {{name}}.command
     (:require [clojure.string :as str]
               [com.stuartsierra.component :as component]
+              [ez-database.core :as db]
               [honeysql.core :as sql]
               [reverie.auth :as auth]
               reverie.auth.sql
-              [reverie.database :as db]
-              [reverie.database.sql :as dbs]
+              [reverie.database.sql :as db.sql]
               [reverie.migrator :as migrator]
-              [reverie.migrator.sql :as migrator-sql]
+              [reverie.migrator.sql :as migrator.sql]
               reverie.modules.auth
               [reverie.modules.role :as role]
               [reverie.settings :as settings]))
@@ -17,7 +17,7 @@
 
 (defn- get-db [settings]
   (let [db-specs (settings/get settings [:db :specs])]
-    (component/start (dbs/database db-specs))))
+    (component/start (db.sql/database db-specs))))
 
 (defn- read-input [info]
   (println info)
@@ -57,7 +57,7 @@
 (defn- command-migrate [db args]
   (println "Migrating...")
   (->> db
-       (migrator-sql/get-migrator)
+       (migrator.sql/get-migrator)
        (migrator/migrate))
   (println "Migration done..."))
 

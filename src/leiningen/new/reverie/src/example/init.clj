@@ -7,12 +7,12 @@
             [reverie.admin :as admin]
             [reverie.admin.api.editors :refer [get-edits-task]]
             [reverie.cache :as cache]
-            [reverie.cache.memory :as cache-memory]
-            [reverie.cache.sql :as cache-sql]
-            [reverie.database.sql :as dbs]
+            [reverie.cache.memory :as cache.memory]
+            [reverie.cache.sql :as cache.sql]
+            [reverie.database.sql :as db.sql]
             [reverie.logger :as logger]
             [reverie.migrator :as migrator]
-            [reverie.migrator.sql :as migrator-sql]
+            [reverie.migrator.sql :as migrator.sql]
             [reverie.modules.filemanager :as fm]
             [reverie.modules.role :as rm]
             [reverie.page :as page]
@@ -30,15 +30,15 @@
                            cache-store site-hash-key-strategy
                            server-options middleware-options
                            run-server stop-server]}]
-  (let [dbs (component/start (dbs/database db-specs))]
+  (let [db (component/start (db.sql/database db-specs))]
 
     ;; reverie/CMS migrations
-    (->> dbs
+    (->> db
          (migrator.sql/get-migrator)
          (migrator/migrate))
 
     (component/system-map
-     :database dbs
+     :database db
      :settings settings
      :rolemanager (component/using (rm/get-rolemanager)
                                    [:database])
@@ -94,7 +94,7 @@
                       :render-fn hiccup.compiler/render-html
                       :base-dir (settings/get settings [:filemanager :base-dir])
                       :media-dirs (settings/get settings [:filemanager :media-dirs])
-                      :cache-store (cache-memory/mem-store)})))
+                      :cache-store (cache.memory/mem-store)})))
 
     ;; load namespaces after the system starts up
     ;; this step will set up any necessary migrations
@@ -106,7 +106,7 @@
     ;; do any migrations necessary
     (->> @system
          :database
-         (migrator-sql/get-migrator)
+         (migrator.sql/get-migrator)
          (migrator/migrate))
 
     ;; start up the scheduler with tasks
@@ -117,7 +117,7 @@
        [(get-edits-task
          (settings/get settings [:admin :tasks :edits :minutes]))
         (cache/get-prune-task
-         (cache-sql/get-basicstrategy) cachemanager {})])
+         (cache.sql/get-basicstrategy) cachemanager {})])
       (scheduler/start! scheduler))
 
     ;; shut down the system if something like ctrl-c is pressed
