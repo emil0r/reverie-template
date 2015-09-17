@@ -117,6 +117,11 @@
          (migrator.sql/get-migrator)
          (migrator/migrate))
 
+    ;; load the translations for i18n
+    (->> @system
+         :i18n
+         (i18n/load-i18n!))
+
     ;; start up the scheduler with tasks
     (let [scheduler (-> @system :scheduler)
           cachemanager (-> @system :cachemanager)]
