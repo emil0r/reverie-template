@@ -10,6 +10,7 @@
             [reverie.cache.memory :as cache.memory]
             [reverie.cache.sql :as cache.sql]
             [reverie.database.sql :as db.sql]
+            [reverie.i18n :as i18n]
             [reverie.logger :as logger]
             [reverie.migrator :as migrator]
             [reverie.migrator.sql :as migrator.sql]
@@ -29,6 +30,7 @@
                            base-dir media-dirs
                            cache-store site-hash-key-strategy
                            server-options middleware-options
+                           i18n-config
                            run-server stop-server]}]
   (let [db (component/start (db.sql/database db-specs))]
 
@@ -42,9 +44,11 @@
      :settings settings
      :rolemanager (component/using (rm/get-rolemanager)
                                    [:database])
+     :i18n (component/using (i18n/get-i18n prod? i18n-tconfig) [])
      :server (component/using (server/get-server {:server-options server-options
                                                   :run-server run-server
                                                   :stop-server stop-server
+                                                  :middleware-options middleware-options
                                                   :dev? (not prod?)})
                               [:filemanager :site])
      :cachemanager (component/using
@@ -61,7 +65,7 @@
      :system (component/using (sys/get-system)
                               [:database :filemanager :site :scheduler
                                :settings :server :logger
-                               :admin :cachemanager]))))
+                               :admin :cachemanager :i18n]))))
 
 
 (defonce system (atom nil))
@@ -85,6 +89,10 @@
                      {:prod? (settings/prod? settings)
                       :log (settings/get settings [:log])
                       :settings settings
+                      :i18n-tconfig (settings/get settings [:i18n :tconfig]
+                                                  {:dictionary {}
+                                                   :dev-mode? (settings/dev? settings)
+                                                   :fallback-locale :en})
                       :db-specs (settings/get settings [:db :specs])
                       :server-options (settings/get settings [:server :options])
                       :middleware-options (settings/get settings [:server :middleware])
