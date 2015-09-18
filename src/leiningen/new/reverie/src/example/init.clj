@@ -22,7 +22,8 @@
             [reverie.settings :as settings]
             [reverie.site :as site]
             [reverie.system :refer [load-views-ns
-                                    load-views] :as sys]))
+                                    load-views] :as sys]
+            [taoensso.timbre :as log]))
 
 
 (defn- system-map [{:keys [prod? log db-specs settings
@@ -132,6 +133,14 @@
         (cache/get-prune-task
          (cache.sql/get-basicstrategy) cachemanager {})])
       (scheduler/start! scheduler))
+
+    ;; log uncaught exceptions in threads
+    (Thread/setDefaultUncaughtExceptionHandler
+     (reify Thread$UncaughtExceptionHandler
+       (uncaughtException [_ thread ex]
+         (log/error {:what :uncaught-exception
+                     :exception ex
+                     :where (str "Uncaught exception on" (.getName thread))}))))
 
     ;; shut down the system if something like ctrl-c is pressed
     (.addShutdownHook
