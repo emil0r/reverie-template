@@ -16,7 +16,7 @@
   ;; run in the REPL as necessary during development
   (let [mmaps (map (fn [[table path]]
                      {:db {:type :sql
-                           :migration-table table
+                           :migrations-table table
                            :url (str "jdbc:postgresql:"
                                      "{{db-subname}}"
                                      "?user=" "{{db-user}}"

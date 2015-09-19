@@ -31,7 +31,7 @@
                            base-dir media-dirs
                            cache-store site-hash-key-strategy
                            server-options middleware-options
-                           i18n-config
+                           i18n-tconfig
                            run-server stop-server]}]
   (let [db (component/start (db.sql/database db-specs))]
 
