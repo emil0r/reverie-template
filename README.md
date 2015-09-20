@@ -4,7 +4,7 @@ A Leiningen template for [reverie](https://github.com/emil0r/reverie).
 
 ## Usage
 
-lein new reverie-template my-new-template
+lein new reverie newsite
 
 ## License
 
