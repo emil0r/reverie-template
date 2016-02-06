@@ -1,7 +1,6 @@
 (ns {{name}}.init
   (:require [clojure.edn :as edn]
             [com.stuartsierra.component :as component]
-            [digest :refer [md5]]
             [org.httpkit.server :as http-server :refer [run-server]]
             reverie.nsloader
             [reverie.admin :as admin]
