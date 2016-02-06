@@ -4,7 +4,13 @@ A Leiningen template for [reverie](https://github.com/emil0r/reverie).
 
 ## Usage
 
-lein new reverie-template my-new-template
+lein new reverie newsite
+
+From clojars:
+
+```clojure
+[reverie/lein-template "1.0-RC6-SNAPSHOT"]
+```
 
 ## License
 
