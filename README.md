@@ -9,7 +9,7 @@ lein new reverie newsite
 From clojars:
 
 ```clojure
-[reverie/lein-template "1.0-RC6-SNAPSHOT"]
+[reverie/lein-template "1.1-alpha1"]
 ```
 
 ## License
