@@ -3,9 +3,9 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [reverie-core "0.7.0-alpha1"]
-                 [reverie-sql "0.7.0-alpha1"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [reverie-core "0.7.0"]
+                 [reverie-sql "0.7.0"]
                  [http-kit "2.1.19"]
                  [{{& db-dependancy}}]]
   :main {{name}}.core

@@ -1,4 +1,4 @@
-(defproject reverie/lein-template "1.1-alpha1"
+(defproject reverie/lein-template "1.1"
   :description "Template for setting up a basic reverie installation"
   :url "http://reveriecms.org"
   :license {:name "Eclipse Public License"
