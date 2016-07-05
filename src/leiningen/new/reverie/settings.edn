@@ -7,7 +7,12 @@
                         :subprotocol "{{db-subprotocol}}"
                         :subname "{{db-subname}}"
                         :user "{{db-user}}"
-                        :password "{{db-password}}"}}}
+                        :password "{{db-password}}"}}
+      :ds-specs {:default {:maximum-pool-size 3
+                           :adapter "{{db-subprotocol}}"
+                           :username "{{db-user}}"
+                           :password "{{db-password}}"
+                           :database-name "{{db}}"}}}
 
  :admin {:tasks {:edits {:minutes 30}}}
  :log {:rotor {:path "logs/{{name}}.log"}}
