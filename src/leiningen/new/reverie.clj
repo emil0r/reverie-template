@@ -22,7 +22,7 @@
   (let [db-host (read-input "Host? (Leave blank for default)")]
     (if (str/blank? db-host)
       (if (not (some #(= db-type %) ["postgres"]))
-        (println (str "I have no clue what the default is for " db-type ", contributions welcome. Picking blank host."))
+        (println (str  db-type "not supported. Picking blank host."))
         (case db-type
           "postgres" "localhost"
           ""))
@@ -32,7 +32,7 @@
   (let [db-host (read-input "Port? (Leave blank for default)")]
     (if (str/blank? db-host)
       (if (not (some #(= db-type %) ["postgres"]))
-        (println (str "I have no clue what the default is for " db-type ", contributions welcome. Picking blank port."))
+        (println (str db-type "not supported. Picking blank port."))
         (case db-type
           "postgres" "5432"
           ""))

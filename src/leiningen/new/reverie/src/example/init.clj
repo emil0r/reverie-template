@@ -32,9 +32,9 @@
                            server-options middleware-options
                            i18n-tconfig
                            run-server stop-server]}]
-  (let [db (component/start (db.sql/database db-specs))]
-
-    ;; reverie/CMS migrations
+  (let [logger (component/start (logger/logger prod? (:rotor log)))
+        db (component/start (db.sql/database db-specs))]
+    ;; run the migrations
     (->> db
          (migrator.sql/get-migrator)
          (migrator/migrate))
@@ -50,7 +50,7 @@
                                                   :stop-server stop-server
                                                   :middleware-options middleware-options
                                                   :dev? (not prod?)})
-                              [:filemanager :site])
+                              [:filemanager :site :database])
      :cachemanager (component/using
                     (cache/cachemananger {:store cache-store})
                     [:database])
@@ -58,7 +58,7 @@
      :site (component/using (site/site {:host-names host-names
                                         :render-fn render-fn})
                             [:database :cachemanager])
-     :logger (logger/logger prod? (:rotor log))
+     :logger logger
      :scheduler (scheduler/get-scheduler)
      :admin (component/using (admin/get-admin-initializer)
                              [:database])
@@ -83,6 +83,13 @@
   ;; read in the settings first
   (let [settings (component/start (settings/settings settings-path))]
 
+    ;; load namespaces after the system starts up
+    ;; this step will set up any necessary migrations
+    (load-views-ns '{{name}}.templates
+                   '{{name}}.objects
+                   '{{name}}.apps
+                   '{{name}}.endpoints)
+
     ;; start the system
     (reset! system (component/start
                     (system-map
@@ -94,6 +101,7 @@
                                                    :dev-mode? (settings/dev? settings)
                                                    :fallback-locale :en})
                       :db-specs (settings/get settings [:db :specs])
+                      :ds-specs (settings/get settings [:db :ds-specs])
                       :server-options (settings/get settings [:server :options])
                       :middleware-options (settings/get settings [:server :middleware])
                       :run-server run-server
@@ -103,19 +111,6 @@
                       :base-dir (settings/get settings [:filemanager :base-dir])
                       :media-dirs (settings/get settings [:filemanager :media-dirs])
                       :cache-store (cache.memory/mem-store)})))
-
-    ;; load namespaces after the system starts up
-    ;; this step will set up any necessary migrations
-    (load-views-ns '{{name}}.templates
-                   '{{name}}.objects
-                   '{{name}}.apps
-                   '{{name}}.endpoints)
-
-    ;; do any migrations necessary
-    (->> @system
-         :database
-         (migrator.sql/get-migrator)
-         (migrator/migrate))
 
     ;; load the translations for i18n
     (->> @system
