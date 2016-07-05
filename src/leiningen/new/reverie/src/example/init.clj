@@ -25,7 +25,7 @@
             [taoensso.timbre :as log]))
 
 
-(defn- system-map [{:keys [prod? log db-specs settings
+(defn- system-map [{:keys [prod? log db-specs ds-specs settings
                            host-names render-fn
                            base-dir media-dirs
                            cache-store site-hash-key-strategy
@@ -33,7 +33,7 @@
                            i18n-tconfig
                            run-server stop-server]}]
   (let [logger (component/start (logger/logger prod? (:rotor log)))
-        db (component/start (db.sql/database db-specs))]
+        db (component/start (db.sql/database (not prod?) db-specs ds-specs))]
     ;; run the migrations
     (->> db
          (migrator.sql/get-migrator)
