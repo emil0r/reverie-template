@@ -16,8 +16,10 @@
   (component/start (settings/settings path)))
 
 (defn- get-db [settings]
-  (let [db-specs (settings/get settings [:db :specs])]
-    (component/start (db.sql/database db-specs))))
+  (let [prod? (settings/prod? settings)
+        db-specs (settings/get settings [:db :specs])
+        ds-specs (settings/get settings [:db :ds-specs])]
+    (component/start (db.sql/database (not prod?) db-specs ds-specs))))
 
 (defn- read-input [info]
   (println info)
