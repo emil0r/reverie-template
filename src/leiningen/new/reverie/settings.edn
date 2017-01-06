@@ -1,8 +1,12 @@
 {
  ;; reverie
  :server-mode :dev
+
  :server {:options {:port 3000}
-          :middleware {}}
+          :middleware {;; paths to be bypassed by the resource middleware
+                       :resources {:media ["/cache" "/images" "/files"]
+                                   :resource ["/static"]}}}
+
  :db {:specs {:default {:classname "{{db-driver}}"
                         :subprotocol "{{db-subprotocol}}"
                         :subname "{{db-subname}}"
@@ -14,9 +18,28 @@
                            :password "{{db-password}}"
                            :database-name "{{db}}"}}}
 
+ ;; email settings
+ ;; this is for the default postal settings
+
+ ;; :email {:provider-settings {:from "Example Name <example@example.com>"
+ ;;                             :settings {:user "admin@example.com"
+ ;;                                        :pass "password"
+ ;;                                        :ssl true
+ ;;                                        :host "smtp.host.example.com"}}}
+
  :admin {:tasks {:edits {:minutes 30}}}
- :log {:rotor {:path "logs/{{name}}.log"}}
+
+ :log {:rotor {:path "logs/{{name}}.log"}
+       ;; :postal {:from "Example Name <example@example.com>"
+       ;;          :to "Example [Log] <example@example.com>"
+       ;;          :settings {:user "admin@example.com"
+       ;;                     :pass "password"
+       ;;                     :ssl true
+       ;;                     :host "smtp.host.example.com"}}
+       }
+
  :site {:host-names []}
+
  :filemanager {:base-dir "media"
                :media-dirs ["media/images"
                             "media/files"]}}

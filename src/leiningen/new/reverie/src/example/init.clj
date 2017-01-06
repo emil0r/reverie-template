@@ -9,6 +9,7 @@
             [reverie.cache.memory :as cache.memory]
             [reverie.cache.sql :as cache.sql]
             [reverie.database.sql :as db.sql]
+            ;; [reverie.email :as email]
             [reverie.i18n :as i18n]
             [reverie.logger :as logger]
             [reverie.migrator :as migrator]
@@ -25,14 +26,15 @@
             [taoensso.timbre :as log]))
 
 
-(defn- system-map [{:keys [prod? log db-specs ds-specs settings
+(defn- system-map [{:keys [prod? logger-settings db-specs ds-specs settings
                            host-names render-fn
+                           ;; email-settings
                            base-dir media-dirs
                            cache-store site-hash-key-strategy
                            server-options middleware-options
                            i18n-tconfig
                            run-server stop-server]}]
-  (let [logger (component/start (logger/logger prod? (:rotor log)))
+  (let [logger (component/start (logger/logger prod? logger-settings))
         db (component/start (db.sql/database (not prod?) db-specs ds-specs))]
     ;; run the migrations
     (->> db
@@ -60,6 +62,8 @@
                             [:database :cachemanager])
      :logger logger
      :scheduler (scheduler/get-scheduler)
+     ;; :email-manager (component/using
+     ;;                 (email/email-manager email-settings) [])
      :admin (component/using (admin/get-admin-initializer)
                              [:database])
      :system (component/using (sys/get-system)
@@ -94,12 +98,13 @@
     (reset! system (component/start
                     (system-map
                      {:prod? (settings/prod? settings)
-                      :log (settings/get settings [:log])
+                      :logger-settings (settings/get settings [:log])
                       :settings settings
                       :i18n-tconfig (settings/get settings [:i18n :tconfig]
                                                   {:dictionary {}
                                                    :dev-mode? (settings/dev? settings)
                                                    :fallback-locale :en})
+                      ;; :email-settings (settings/get settings [:email])
                       :db-specs (settings/get settings [:db :specs])
                       :ds-specs (settings/get settings [:db :ds-specs])
                       :server-options (settings/get settings [:server :options])
