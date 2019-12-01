@@ -9,10 +9,13 @@
 (def render (renderer "reverie"))
 
 (defn reverie
-  [name]
-  (let [data {:name name
-              :sanitized (name-to-path name)
-              :year (year)}]
+  [name & options]
+  (let [options (set options)
+        data (merge {:name name
+                     :sanitized (name-to-path name)
+                     :year (year)}
+                    (if (options "+batteries")
+                      {:deps-batteries "[reverie-batteries \"0.8.1\"]\n"}))]
     (main/info "Generating fresh 'lein new' reverie project.")
     (->files data
              [".gitignore" (render "core/gitignore" data)]

@@ -9,9 +9,12 @@
                  [reverie-core "0.9.0-alpha7"]
                  [reverie-sql "0.9.0-alpha7"]
 
-                 ;; web
+                 ;; web server
                  [http-kit "2.3.0"]
-                 [ez-form "0.7.3"] 
+
+                 ;; batteries
+                 [ez-form "0.7.3"]
+                 {{& deps-batteries}}
 
                  ;; database
                  [org.postgresql/postgresql "42.2.8"]
