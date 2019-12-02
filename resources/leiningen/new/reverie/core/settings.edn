@@ -1,0 +1,29 @@
+{
+ ;; reverie
+
+ :server {:mode :dev}
+
+ :http {:server {:options {:port 3000}
+                 :middleware {}}}
+
+ :database {:specs {:default {:classname "org.postgresql.Driver"
+                              :subprotocol "postgresql"
+                              :subname "//localhost:5432/{{db-name}}"
+                              :user "{{db-username}}"
+                              :password "{{db-password}}"}}
+            :ds-specs {:default {:maximum-pool-size 3
+                                 :adapter "postgresql"
+                                 :port-number 5432
+                                 :database-name "{{db-name}}"
+                                 :username "{{db-username}}"
+                                 :password "{{db-password}}"}}}
+
+ :admin {:tasks {:edits {:minutes 30}}}
+
+ :log {:appenders {:rotor {:path "logs/{{name}}.log"}}}
+
+ :site {:host-names []}
+ 
+ :filemanager {:base-directory "media"
+               :media-dirs ["media/images"
+                            "media/files"]}}

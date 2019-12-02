@@ -1,0 +1,11 @@
+= {{name}}
+
+A website for...
+
+== Usage
+
+FIXME
+
+== License
+
+Copyright © {{year}} FIXME
