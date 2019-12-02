@@ -1,4 +1,4 @@
-(defproject reverie/lein-template "2.0.0-SNAPSHOT"
+(defproject reverie/lein-template "2.0.0"
 
   :description "Template for setting up a reverie installation"
 
